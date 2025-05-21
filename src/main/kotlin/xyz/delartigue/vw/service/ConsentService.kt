@@ -15,14 +15,6 @@ class ConsentService (
     private val consentProducerService: ConsentProducerService
 ){
     fun createConsent(event: ConsentEvent) {
-        handleConsent(event)
-    }
-
-    fun updateConsent(event: ConsentEvent) {
-        handleConsent(event)
-    }
-
-    private fun handleConsent(event: ConsentEvent) {
         val user = userRepository.findById(event.user.id).orElseThrow().toDomain()
         val savedConsents = mutableListOf<Consent>()
 

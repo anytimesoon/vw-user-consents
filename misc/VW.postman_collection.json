@@ -170,24 +170,6 @@
 						"url": "http://localhost:8080/consent"
 					},
 					"response": []
-				},
-				{
-					"name": "Update Consent",
-					"request": {
-						"method": "PUT",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"user\": {\n        \"id\": \"{{user_id}}\"\n    },\n    \"consents\": [\n        {\n            \"id\": \"email_notifications\",\n            \"enabled\": false\n        },\n        {\n            \"id\": \"sms_notifications\",\n            \"enabled\": true\n        }\n    ]\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": "http://localhost:8080/consent"
-					},
-					"response": []
 				}
 			]
 		}

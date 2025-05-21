@@ -13,7 +13,6 @@ In the `misc/` directory, you will find a postman collection to document all the
 
 ### Consent
 - [x] Create consent and link to user
-- [x] Update consent
 - [x] Send consent events to queue for async processing and storage
 
 # Database
@@ -22,3 +21,7 @@ The database initialization script can be found in `src/main/resources/static/sq
 
 # Tests
 The first run of tests might be slow, since we are using a testcontainer for the queue integration test. Once the container is downloaded, the tests should run in a reasonable timeframe.
+
+# Considerations
+`Consent change events can only be read and created, not update or deleted` I took this to mean that the events sent to the queue are creation events. The way I understand the system is that these will be stored in a datawarehouse. The API stores a snapshot of the latest consents in its database for performance. This snapshot does get updated, but my design would allow consent changes to be stored for auditing purposes in a separate system.
+

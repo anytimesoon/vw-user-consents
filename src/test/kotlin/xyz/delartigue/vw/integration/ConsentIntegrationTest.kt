@@ -11,7 +11,6 @@ import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import xyz.delartigue.vw.controller.dto.ConsentDto
 import xyz.delartigue.vw.controller.dto.ConsentRequest
@@ -101,44 +100,6 @@ class ConsentIntegrationTest {
         )
 
         mockMvc.perform(post("/consent")
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(objectMapper.writeValueAsString(input)))
-            .andExpect(status().isUnprocessableEntity)
-    }
-
-    @Test
-    fun `updateConsent updates or creates a consent`() {
-        val input = generateConsentRequest(userId = id2, emailEnabled = false, smsEnabled = true)
-
-        mockMvc.perform(put("/consent")
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(objectMapper.writeValueAsString(input)))
-            .andExpect(status().isOk)
-
-        val result = mockMvc.perform(get("/user/${id2}"))
-            .andExpect(status().isOk)
-            .andReturn()
-
-        val user = objectMapper.readValue(result.response.contentAsString, UserDto::class.java)
-
-        assertTrue(user.consents?.size == 2)
-        assertTrue(user.consents?.get(0)?.id == ConsentType.EMAIL.value)
-        assertTrue(user.consents?.get(1)?.id == ConsentType.SMS.value)
-        assertTrue(user.consents?.get(0)?.enabled == false)
-        assertTrue(user.consents?.get(1)?.enabled == true)
-    }
-
-    @Test
-    fun `updateConsent returns 422 if the consent is not valid`() {
-        val input = ConsentRequest(
-            user = UserRequest(id1),
-            listOf(ConsentDto(
-                id = "invalid",
-                enabled = true)
-            )
-        )
-
-        mockMvc.perform(put("/consent")
             .contentType(MediaType.APPLICATION_JSON)
             .content(objectMapper.writeValueAsString(input)))
             .andExpect(status().isUnprocessableEntity)
