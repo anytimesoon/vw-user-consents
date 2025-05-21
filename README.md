@@ -30,3 +30,6 @@ The first run of tests might be slow, since we are using a testcontainer for the
 # Considerations
 `Consent change events can only be read and created, not update or deleted` I took this to mean that the events sent to the queue are creation events. The way I understand the system is that these will be stored in a datawarehouse. The API stores a snapshot of the latest consents in its database for performance. This snapshot does get updated, but my design would allow consent changes to be stored for auditing purposes in a separate system.
 
+If this assumption is incorrect, and the api is to store all the consents in its own database, it would be a trivial two step change:
+- Always create a consent in the ConsentService
+- In the UserService, return the consents with the latest timestamps
