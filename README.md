@@ -4,6 +4,11 @@ Please wait for the database and rabbitmq containers to be fully operational bef
 
 In the `misc/` directory, you will find a postman collection to document all the endpoints provided by the API.
 
+This project uses gradle, kotlin and spring and can be built by running
+```bash
+./gradlew clean build
+```
+
 # Features
 ### User
 - [x] Create user with email validations (return 422 when validations fail)
